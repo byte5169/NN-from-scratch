@@ -63,8 +63,15 @@ print("Results of 1st hidden layer\n", l1_layer)
 print("Results of 2st layer\n", l2_layer)
 
 
+### using Class and data_eneration function we have created
 from utils.data_generation import data_generation, data_visualize
+from model.layer import Layer
 
-X, y = data_generation()
+# generating data
+X, y = data_generation(300, 2)
 
-data_visualize(X, y)
+# creating layer(dense)
+layer1 = Layer(2, 3)
+layer1.forward(X[1])
+
+print("Results of Layer class:\n", layer1.output)
