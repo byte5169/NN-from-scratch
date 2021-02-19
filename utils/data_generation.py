@@ -8,7 +8,7 @@ import numpy as np
 np.random.seed(42)
 
 # func to generate the data
-def data_generation(number=100, classes=3):
+def create_data(number=100, classes=3):
     number = number  # number of points per class
     classes = classes  # number of classes
     dimension = 2  # dimensionality
@@ -28,11 +28,11 @@ def data_generation(number=100, classes=3):
 
 
 # func to visualize the data
-def data_visualize(X, y):
+def visualize_data(X, y):
     plt.scatter(X[:, 0], X[:, 1], c=y, s=40, cmap=plt.cm.Spectral)
     plt.show()
 
 
 # working example
-# X, y = data_generation()
-# data_visualize(X, y)
+# X, y = create_data()
+# visualize_data(X, y)
