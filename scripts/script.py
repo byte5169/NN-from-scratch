@@ -10,8 +10,8 @@ sys.path.insert(0, parentdir)
 ### using Layer, Activation modules and create_data function we have created
 from utils.data_generation import create_spin_data, visualize_data
 from model.layer import Layer
-from model.activation import ReLU, Softmax
-from model.metrics import CatCrossEntropy, Accuracy
+from model.activation import ReLU
+from model.metrics import Accuracy, Softmax_CatCrossEntropy
 
 # generating data
 X, y = create_spin_data(100, 3)
@@ -20,13 +20,12 @@ X, y = create_spin_data(100, 3)
 # creating first layer(dense) with 2 inputs and 3 outputs
 # create ReLU activation
 # creating second layer(dense) with 3 inputs and 3 outputs
-# create Softmax activation
-# create loss function
+# create Softmax combined with loss and activation
+# calculate accuracy
 layer1 = Layer(2, 3)
 activation1 = ReLU()
 layer2 = Layer(3, 3)
-activation2 = Softmax()
-loss_func = CatCrossEntropy()
+loss_activation = Softmax_CatCrossEntropy()
 acc = Accuracy()
 
 # passing data through 1st layer
@@ -35,12 +34,23 @@ layer1.forward(X)
 activation1.forward(layer1.output)
 # forward pass of outputs of ReLu activation
 layer2.forward(activation1.output)
-# forward pass of 2nd layer outputs through Softmax function
-activation2.forward(layer2.output)
-# forward pass of ouput of 2nd layer through loss function, return loss
-loss = loss_func.calc(activation2.output, y)
-accs = acc.calc(activation2.output, y)
+# forward pass of ouput of 2nd layer through activtion/loss function, return loss
+loss = loss_activation.forward(layer2.output, y)
+accs = acc.calc(loss_activation.output, y)
 
-print("Results:\n", activation2.output[:3])
+print("Results:\n", loss_activation.output[:3])
 print("CrossEntLoss:\n", loss)
 print("Accuracy:\n", accs)
+
+
+# backward pass
+loss_activation.backward(loss_activation.output, y)
+layer2.backward(loss_activation.dinputs)
+activation1.backward(layer2.dinputs)
+layer1.backward(activation1.dinputs)
+
+# gradients
+print(layer1.dweights)
+print(layer1.dbiases)
+print(layer2.dweights)
+print(layer2.dbiases)

@@ -1,3 +1,4 @@
+from model.activation import Softmax
 import numpy as np
 
 ### Accuracy class
@@ -6,11 +7,12 @@ class Accuracy:
     def calc(self, output, y):
         preds = np.argmax(output, axis=1)
         # if targets one-hot enc - covert them
-        if len(y.shape)==2:
+        if len(y.shape) == 2:
             y = np.argmax(y, axis=1)
-        acc = np.mean(preds==y)
+        acc = np.mean(preds == y)
 
         return acc
+
 
 ### General Loss class
 class Loss:
@@ -44,3 +46,51 @@ class CatCrossEntropy(Loss):
         neg_log = -np.log(probs)
 
         return neg_log
+
+    # backward pass
+    def backward(self, dvalues, y_true):
+        samples = len(dvalues)
+        # number of labels in a sample
+        labels = len(dvalues[0])
+
+        # convert to one-hot vector
+        if len(y_true.shape) == 1:
+            y_true = np.eye(labels)[y_true]
+
+        # calc gradient
+        self.dinputs = -y_true / dvalues
+        # normalize gradient
+        self.dinputs = self.dinputs / samples
+
+
+### Combine Softmax and Categorical crossentropy for faster calculations
+class Softmax_CatCrossEntropy:
+    # create activation and loss functions
+    def __init__(self):
+        self.activation = Softmax()
+        self.loss = CatCrossEntropy()
+
+    # forward pass
+    def forward(self, inputs, y_true):
+        # output laers activation
+        self.activation.forward(inputs)
+        # output
+        self.output = self.activation.output
+        # loss
+        return self.loss.calc(self.output, y_true)
+
+    # backward pass
+    def backward(self, dvalues, y_true):
+        # number of samples
+        samples = len(dvalues)
+
+        # if labels one-hot => discrete values
+        if len(y_true.shape) == 2:
+            y_true = np.argmax(y_true, axis=1)
+
+        # copy
+        self.dinputs = dvalues.copy()
+        # calc gradient
+        self.dinputs[range(samples), y_true] -= 1
+        # normalize gradient
+        self.dinputs = self.dinputs / samples
