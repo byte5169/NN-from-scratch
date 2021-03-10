@@ -7,7 +7,7 @@ np.random.seed(42)
 class Layer:
     def __init__(self, number_inputs, number_neurons):
         # initialize w, b
-        self.weights = np.random.randn(number_inputs, number_neurons)
+        self.weights = 0.01 * np.random.randn(number_inputs, number_neurons)
         self.biases = np.zeros((1, number_neurons))
 
     # forward pass
