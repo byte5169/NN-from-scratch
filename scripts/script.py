@@ -2,6 +2,8 @@
 # To import 'mymodule' that is in the parent directory of your current module with use the code below
 import os, sys, inspect
 
+from numpy.random import sample
+
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
@@ -12,10 +14,10 @@ from utils.data_generation import create_spin_data, visualize_data
 from model.layer import Layer
 from model.activation import ReLU
 from model.metrics import Accuracy, Softmax_CatCrossEntropy
-from model.optimizer import SGD
+from model.optimizer import SGD, Adagrad, Adam, RMSprop
 
 # generating data
-X, y = create_spin_data(100, 3)
+X, y = create_spin_data(400, 3)
 
 ### Defining Model
 # creating first layer(dense) with 2 inputs and 3 outputs
@@ -29,7 +31,7 @@ activation1 = ReLU()
 layer2 = Layer(64, 3)
 loss_activation = Softmax_CatCrossEntropy()
 acc = Accuracy()
-optim = SGD(decay=1e-3, momentum=0.9)
+optim = Adam(lr=0.005, decay=5e-7)
 
 # training loop
 for epoch in range(10001):
@@ -45,7 +47,7 @@ for epoch in range(10001):
 
     if not epoch % 100:
         print(
-            f"epoch: {epoch}, loss: {loss:.3f}, acc: {accs:.3f}, lr: {optim.current_lr}"
+            f"epoch: {epoch}, loss: {loss:.3f}, acc: {accs:.3f}, lr: {optim.current_lr:.5f}"
         )
 
     # backward pass

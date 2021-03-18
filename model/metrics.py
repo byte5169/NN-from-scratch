@@ -1,7 +1,11 @@
 from model.activation import Softmax
 import numpy as np
 
-### Accuracy class
+"""
+Accuracy class
+"""
+
+
 class Accuracy:
     # calculating accuracy using layer output, targets
     def calc(self, output, y):
@@ -14,7 +18,11 @@ class Accuracy:
         return acc
 
 
-### General Loss class
+"""
+General Loss class
+"""
+
+
 class Loss:
     # takes model output, true values and calculates
     # data losses
@@ -25,7 +33,11 @@ class Loss:
         return loss_mean
 
 
-### Categorical Cross Entropy loss class
+"""
+Categorical Cross Entropy loss class
+"""
+
+
 class CatCrossEntropy(Loss):
     # forwad pass
     def forward(self, y_pred, y_true):
@@ -63,7 +75,11 @@ class CatCrossEntropy(Loss):
         self.dinputs = self.dinputs / samples
 
 
-### Combine Softmax and Categorical crossentropy for faster calculations
+"""
+Combine Softmax and Categorical crossentropy for faster calculations
+"""
+
+
 class Softmax_CatCrossEntropy:
     # create activation and loss functions
     def __init__(self):

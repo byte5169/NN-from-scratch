@@ -1,6 +1,10 @@
 import numpy as np
 
-# ReLU activation function
+"""
+ReLU activation function
+"""
+
+
 class ReLU:
     # forward pass
     def forward(self, inputs):
@@ -15,7 +19,11 @@ class ReLU:
         self.dinputs[self.inputs <= 0] = 0
 
 
-# Softmax activation function
+"""
+Softmax activation function
+"""
+
+
 class Softmax:
     # forward pass
     def forward(self, inputs):
@@ -33,7 +41,7 @@ class Softmax:
         # enumerate gradients and outputs
         for i, (one_output, one_dvalue) in enumerate(zip(self.output, dvalues)):
             # flatten array
-            one_output = one_output.reshape(-1,1)
+            one_output = one_output.reshape(-1, 1)
             # jacobian matrix
             jac_matrix = np.diagflat(one_output) - np.dot(one_output, one_output.T)
             # calc sample gradient and add it to array of sample gradients
