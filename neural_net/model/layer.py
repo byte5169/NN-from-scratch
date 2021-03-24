@@ -1,8 +1,5 @@
 import numpy as np
 
-# set seed to reproduse results across runs
-np.random.seed(42)
-
 
 class Layer:
     def __init__(self, number_inputs, number_neurons):

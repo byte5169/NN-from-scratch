@@ -1,8 +1,5 @@
 import numpy as np
 
-# set seed to reproduse results across runs
-np.random.seed(42)
-
 # by using weights and biases - calculate 3 neurons
 # generate random i, w, b
 inputs = np.random.rand(3)

@@ -1,5 +1,5 @@
-from model.activation import Softmax
 import numpy as np
+from neural_net.model.activation import Softmax
 
 """
 Accuracy class

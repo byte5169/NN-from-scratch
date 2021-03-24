@@ -1,23 +1,11 @@
-# Relative imports (as in from .. import mymodule) only work in a package.
-# To import 'mymodule' that is in the parent directory of your current module with use the code below
-import os, sys, inspect
-
-from numpy.random import sample
-
-currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parentdir = os.path.dirname(currentdir)
-sys.path.insert(0, parentdir)
-
-
-### using Layer, Activation modules and create_data function we have created
-from utils.data_generation import create_spin_data, visualize_data
-from model.layer import Layer
-from model.activation import ReLU
-from model.metrics import Accuracy, Softmax_CatCrossEntropy
-from model.optimizer import SGD, Adagrad, Adam, RMSprop
+from neural_net.utils.data_generation import create_spin_data, visualize_data
+from neural_net.model.layer import Layer
+from neural_net.model.activation import ReLU
+from neural_net.model.metrics import Accuracy, Softmax_CatCrossEntropy
+from neural_net.model.optimizer import SGD, Adagrad, Adam, RMSprop
 
 # generating data
-X, y = create_spin_data(400, 3)
+X, y = create_spin_data(100, 3)
 
 ### Defining Model
 # creating first layer(dense) with 2 inputs and 3 outputs

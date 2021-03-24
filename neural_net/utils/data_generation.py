@@ -4,13 +4,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-# set seed to reproduse results across runs
-np.random.seed(42)
-
 # func to generate the spiral data
 def create_spin_data(number=100, classes=3):
-    number = number  # number of points per class
-    classes = classes  # number of classes
     dimension = 2  # dimensionality
     X = np.zeros(
         (number * classes, dimension)
@@ -29,8 +24,6 @@ def create_spin_data(number=100, classes=3):
 
 # func to generate the vertical data
 def create_vertical_data(number=100, classes=3):
-    number = number  # number of points per class
-    classes = classes  # number of classes
     dimension = 2  # dimensionality
     X = np.zeros((number * classes, dimension))
     y = np.zeros(number * classes, dtype="uint8")
